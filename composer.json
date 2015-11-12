@@ -1,0 +1,26 @@
+{
+    "name": "matthecat/twig-whitespace-collapse-extension",
+    "type": "library",
+    "description": "Whitespace collapse extension for Twig",
+    "keywords": ["twig", "templating", "whitespace", "collapse"],
+    "homepage": "http://twig.sensiolabs.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "MatTheCat",
+            "email": "math.lechat@gmail.com",
+            "homepage": "http://www.matthecat.com"
+        }
+    ],
+    "require": {
+        "twig/twig": "~1.12"
+    },
+    "require-dev": {
+        "fabpot/php-cs-fixer": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "MatTheCat\\": "lib/"
+        }
+    }
+}
