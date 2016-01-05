@@ -47,7 +47,7 @@ ou si vous êtes sous Symfony par exemple
 
 ```yaml
 twig.extension.whitespace_collapser:
-    class: \MatTheCat\Twig\Extension\WhitespaceCollapser
+    class: MatTheCat\Twig\Extension\WhitespaceCollapser
     tags:
         - { name: twig.extension }
 ```
