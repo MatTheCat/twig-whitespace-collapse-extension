@@ -100,3 +100,19 @@ sera rendu comme
          </head> <body> </body>
 </html>
 ```
+
+## :warning: Attention
+
+L’extension fusionne *toute* suite de plus d’un espace, ce qui correspond au cas général
+mais peut être destructif dans les cas suivants :
+
+- élément dont la propriété `white-space` vaut `pre`, `pre-wrap` ou `pre-line`
+- texte d’éléments de formulaire
+- attributs `data-*`
+
+Outre `{% whitespacecollapse false %}`, vous pouvez également rendre le code concerné avec Twig
+pour éviter cela. Par exemple
+
+```twig
+data-example="{{ 'i  like  spaces' }}"
+```
