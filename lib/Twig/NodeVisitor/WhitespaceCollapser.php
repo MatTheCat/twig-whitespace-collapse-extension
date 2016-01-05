@@ -61,7 +61,7 @@ class WhitespaceCollapser extends \Twig_BaseNodeVisitor
             $node->setAttribute(
                 'data',
                 preg_replace(
-                    array('/\s{2,}/', '/<\s+/', '/\s+>/'),
+                    array('/\s{2,}/', '/<\s/', '/\s>/'),
                     array(' ', '<', '>'),
                     $text
                 )
