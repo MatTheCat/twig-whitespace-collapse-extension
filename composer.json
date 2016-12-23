@@ -16,7 +16,7 @@
         "twig/twig": "~1.12"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "*"
+        "friendsofphp/php-cs-fixer": "~2"
     },
     "autoload": {
         "psr-4": {

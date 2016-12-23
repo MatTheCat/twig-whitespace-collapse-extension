@@ -5,8 +5,6 @@ $finder = \Symfony\Component\Finder\Finder::create()
     ->name('*.php')
     ->in(array('lib'));
 
-$config = \Symfony\CS\Config\Config::create()
-    ->level(\Symfony\CS\FixerInterface::SYMFONY_LEVEL)
-    ->finder($finder);
-
-return $config;
+return PhpCsFixer\Config::create()
+    ->setFinder($finder)
+    ->setRules(['@Symfony' => true]);
