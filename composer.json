@@ -3,7 +3,6 @@
     "type": "library",
     "description": "Whitespace collapse extension for Twig",
     "keywords": ["twig", "templating", "whitespace", "collapse"],
-    "homepage": "http://twig.sensiolabs.org",
     "license": "MIT",
     "authors": [
         {
