@@ -33,9 +33,4 @@ class WhitespaceCollapser extends \Twig_Extension
     {
         return $this->default;
     }
-
-    public function getName()
-    {
-        return 'whitespace_collapser';
-    }
 }

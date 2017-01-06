@@ -16,7 +16,7 @@ class WhitespaceCollapse extends \Twig_TokenParser
         } else {
             $expr = $this->parser->getExpressionParser()->parseExpression();
             if (!$expr instanceof \Twig_Node_Expression_Constant) {
-                throw new \Twig_Error_Syntax('State must be a Boolean.', $stream->getCurrent()->getLine(), $stream->getFilename());
+                throw new \Twig_Error_Syntax('State must be a Boolean.', $stream->getCurrent()->getLine(), $stream->getSourceContext()->getPath());
             }
             $value = $expr->getAttribute('value');
         }

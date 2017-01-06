@@ -4,7 +4,7 @@ namespace MatTheCat\Twig\Node;
 
 class WhitespaceCollapse extends \Twig_Node
 {
-    public function __construct($value, \Twig_NodeInterface $body, $lineno, $tag = 'whitespacecollapse')
+    public function __construct($value, \Twig_Node $body, $lineno, $tag = 'whitespacecollapse')
     {
         parent::__construct(array('body' => $body), array('value' => $value), $lineno, $tag);
     }

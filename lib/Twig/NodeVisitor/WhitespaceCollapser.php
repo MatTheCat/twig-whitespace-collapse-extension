@@ -2,7 +2,8 @@
 
 namespace MatTheCat\Twig\NodeVisitor;
 
-use MatTheCat\Twig\Node\WhitespaceCollapse;
+use MatTheCat\Twig\Extension\WhitespaceCollapser as WhitespaceCollapseExtension;
+use MatTheCat\Twig\Node\WhitespaceCollapse as WhitespaceCollapseNode;
 
 class WhitespaceCollapser extends \Twig_BaseNodeVisitor
 {
@@ -17,16 +18,16 @@ class WhitespaceCollapser extends \Twig_BaseNodeVisitor
             $this->statusStack[] = isset($this->blocks[$node->getAttribute('name')]) ?
                 $this->blocks[$node->getAttribute('name')] :
                 $this->needCollapsing();
-        } elseif ($node instanceof WhitespaceCollapse) {
+        } elseif ($node instanceof WhitespaceCollapseNode) {
             $this->statusStack[] = $node->getAttribute('value');
-        } elseif ($env->hasExtension('whitespace_collapser')) {
+        } elseif ($env->hasExtension(WhitespaceCollapseExtension::class)) {
             /** @var \MatTheCat\Twig\Extension\WhitespaceCollapser $extension */
-            $extension = $env->getExtension('whitespace_collapser');
+            $extension = $env->getExtension(WhitespaceCollapseExtension::class);
             $extensionDefault = $extension->getDefault();
 
             if ($node instanceof \Twig_Node_Module) {
                 if (is_array($extensionDefault)) {
-                    $filename = $node->getAttribute('filename');
+                    $filename = $node->getTemplateName();
                     if (substr($filename, -5) === '.twig') {
                         $filename = substr($filename, 0, -5);
                     }
@@ -46,7 +47,7 @@ class WhitespaceCollapser extends \Twig_BaseNodeVisitor
 
     protected function doLeaveNode(\Twig_Node $node, \Twig_Environment $env)
     {
-        if ($node instanceof WhitespaceCollapse || $node instanceof \Twig_Node_Block || $node instanceof \Twig_Node_AutoEscape) {
+        if ($node instanceof WhitespaceCollapseNode || $node instanceof \Twig_Node_Block || $node instanceof \Twig_Node_AutoEscape) {
             array_pop($this->statusStack);
         } elseif ($node instanceof \Twig_Node_BlockReference) {
             $this->blocks[$node->getAttribute('name')] = $this->needCollapsing();
