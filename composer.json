@@ -19,7 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "MatTheCat\\": "lib/"
+            "MatTheCat\\Twig\\": "lib/Twig"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MatTheCat\\Twig\\Tests\\": "test/Twig/Tests"
         }
     }
 }

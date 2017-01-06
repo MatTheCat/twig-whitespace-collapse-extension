@@ -7,7 +7,7 @@ use MatTheCat\Twig;
 class WhitespaceCollapser extends \Twig_Extension
 {
     /**
-     * @var
+     * @var string[]
      */
     private $default;
 
