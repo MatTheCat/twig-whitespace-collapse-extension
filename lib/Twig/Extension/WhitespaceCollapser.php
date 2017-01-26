@@ -42,12 +42,4 @@ class WhitespaceCollapser extends \Twig_Extension
     {
         return $this->default;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
-    {
-        return 'whitespace_collapser';
-    }
 }

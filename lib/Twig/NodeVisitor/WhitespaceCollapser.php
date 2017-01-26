@@ -2,6 +2,7 @@
 
 namespace MatTheCat\Twig\NodeVisitor;
 
+use MatTheCat\Twig\Extension\WhitespaceCollapser as WhitespaceCollapserExtension;
 use MatTheCat\Twig\Node\WhitespaceCollapse;
 
 class WhitespaceCollapser extends \Twig_BaseNodeVisitor
@@ -30,7 +31,7 @@ class WhitespaceCollapser extends \Twig_BaseNodeVisitor
             return $node;
         }
 
-        if (!$env->hasExtension('whitespace_collapser')
+        if (!$env->hasExtension(WhitespaceCollapserExtension::class)
             || (!$node instanceof \Twig_Node_Module
                 && !$node instanceof \Twig_Node_AutoEscape
             )
@@ -39,7 +40,7 @@ class WhitespaceCollapser extends \Twig_BaseNodeVisitor
         }
 
         /** @var \MatTheCat\Twig\Extension\WhitespaceCollapser $extension */
-        $extension = $env->getExtension('whitespace_collapser');
+        $extension = $env->getExtension(WhitespaceCollapserExtension::class);
         $extensionDefault = $extension->getDefault();
 
         if ($node instanceof \Twig_Node_Module) {
