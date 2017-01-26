@@ -11,39 +11,59 @@ class WhitespaceCollapser extends \Twig_BaseNodeVisitor
     protected $previousNode;
     protected $statusStack = array();
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doEnterNode(\Twig_Node $node, \Twig_Environment $env)
     {
         if ($node instanceof \Twig_Node_Block) {
             $this->statusStack[] = isset($this->blocks[$node->getAttribute('name')]) ?
                 $this->blocks[$node->getAttribute('name')] :
                 $this->needCollapsing();
-        } elseif ($node instanceof WhitespaceCollapse) {
-            $this->statusStack[] = $node->getAttribute('value');
-        } elseif ($env->hasExtension('whitespace_collapser')) {
-            /** @var \MatTheCat\Twig\Extension\WhitespaceCollapser $extension */
-            $extension = $env->getExtension('whitespace_collapser');
-            $extensionDefault = $extension->getDefault();
 
-            if ($node instanceof \Twig_Node_Module) {
-                if (is_array($extensionDefault)) {
-                    $filename = $node->getAttribute('filename');
-                    if (substr($filename, -5) === '.twig') {
-                        $filename = substr($filename, 0, -5);
-                    }
-                    $this->enabledByDefault = in_array(pathinfo($filename, PATHINFO_EXTENSION), $extensionDefault, true);
-                } else {
-                    $this->enabledByDefault = $extensionDefault;
+            return $node;
+        }
+
+        if ($node instanceof WhitespaceCollapse) {
+            $this->statusStack[] = $node->getAttribute('value');
+
+            return $node;
+        }
+
+        if (!$env->hasExtension('whitespace_collapser')
+            || (!$node instanceof \Twig_Node_Module
+                && !$node instanceof \Twig_Node_AutoEscape
+            )
+        ) {
+            return $node;
+        }
+
+        /** @var \MatTheCat\Twig\Extension\WhitespaceCollapser $extension */
+        $extension = $env->getExtension('whitespace_collapser');
+        $extensionDefault = $extension->getDefault();
+
+        if ($node instanceof \Twig_Node_Module) {
+            if (is_array($extensionDefault)) {
+                $filename = $node->getAttribute('filename');
+                if (substr($filename, -5) === '.twig') {
+                    $filename = substr($filename, 0, -5);
                 }
-            } elseif ($node instanceof \Twig_Node_AutoEscape) {
-                $this->statusStack[] = is_array($extensionDefault) ?
-                    in_array($node->getAttribute('value'), $extensionDefault) :
-                    $extensionDefault;
+                $this->enabledByDefault = in_array(pathinfo($filename, PATHINFO_EXTENSION), $extensionDefault, true);
+            } else {
+                $this->enabledByDefault = $extensionDefault;
             }
+        } else {
+            $this->statusStack[] = is_array($extensionDefault) ?
+                in_array($node->getAttribute('value'), $extensionDefault) :
+                $extensionDefault;
         }
 
         return $node;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function doLeaveNode(\Twig_Node $node, \Twig_Environment $env)
     {
         if ($node instanceof WhitespaceCollapse || $node instanceof \Twig_Node_Block || $node instanceof \Twig_Node_AutoEscape) {
@@ -77,11 +97,17 @@ class WhitespaceCollapser extends \Twig_BaseNodeVisitor
         return $node;
     }
 
+    /**
+     * @return bool
+     */
     protected function needCollapsing()
     {
         return empty($this->statusStack) ? $this->enabledByDefault : end($this->statusStack);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getPriority()
     {
         return 0;

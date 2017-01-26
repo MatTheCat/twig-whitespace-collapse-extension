@@ -6,6 +6,9 @@ use MatTheCat\Twig\Node\WhitespaceCollapse as WhitespaceCollapseNode;
 
 class WhitespaceCollapse extends \Twig_TokenParser
 {
+    /**
+     * {@inheritdoc}
+     */
     public function parse(\Twig_Token $token)
     {
         $lineno = $token->getLine();
@@ -28,11 +31,19 @@ class WhitespaceCollapse extends \Twig_TokenParser
         return new WhitespaceCollapseNode($value, $body, $lineno, $this->getTag());
     }
 
+    /**
+     * @param \Twig_Token $token
+     *
+     * @return bool
+     */
     public function decideBlockEnd(\Twig_Token $token)
     {
         return $token->test('endwhitespacecollapse');
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function getTag()
     {
         return 'whitespacecollapse';
